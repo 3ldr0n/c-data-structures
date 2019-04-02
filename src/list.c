@@ -62,7 +62,7 @@ void append_into_list(struct list_t *list, char *value)
     list->size++;
 
     list->list = (char **)srealloc(list->list, list->size);
-    list->list[list->size-1] = (char *)srealloc(list->list[list->size-1], MAX_LINE_CHARACTERS * sizeof(char *));
+    list->list[list->size-1] = (char *)smalloc(MAX_LINE_CHARACTERS * sizeof(char *));
 
     strcpy(list->list[list->size], value);
 }
