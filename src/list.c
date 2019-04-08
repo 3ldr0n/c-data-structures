@@ -58,34 +58,38 @@ void insert_into_list(struct list_t *list, char *value, unsigned int index)
 
 void append_into_list(struct list_t *list, char *value)
 {
+    if (list->used_space < list->size) {
+        insert_into_list(list, value, list->used_space); return;
+    }
+
     list->used_space++;
     list->size++;
 
     list->list = (char **)srealloc(list->list, list->size);
+    printf("%s\n", list->list[3]);
+
     list->list[list->size-1] = (char *)smalloc(MAX_LINE_CHARACTERS * sizeof(char *));
 
-    strcpy(list->list[list->size], value);
+    strcpy(list->list[list->used_space - 1], value);
 }
 
 int main()
 {
-    struct list_t my_list;
+    struct list_t list;
 
-    instanciate_list(&my_list, 10);
-    insert_into_list(&my_list, "pizza0", 0);
-    insert_into_list(&my_list, "pizza1", 1);
-    insert_into_list(&my_list, "pizza2", 2);
-    insert_into_list(&my_list, "pizza3", 3);
-    insert_into_list(&my_list, "pizza4", 4);
-    insert_into_list(&my_list, "pizza5", 5);
-    insert_into_list(&my_list, "pizza6", 6);
-    insert_into_list(&my_list, "pizza7", 7);
-    insert_into_list(&my_list, "pizza8", 8);
-    insert_into_list(&my_list, "pizza9", 9);
-    append_into_list(&my_list, "pizza10");
+    instanciate_list(&list, 10);
+    insert_into_list(&list, "pizza0", 0);
+    insert_into_list(&list, "pizza1", 1);
+    insert_into_list(&list, "pizza2", 2);
+    insert_into_list(&list, "pizza3", 3);
+    insert_into_list(&list, "pizza4", 4);
+    insert_into_list(&list, "pizza5", 5);
+    insert_into_list(&list, "pizza6", 6);
+    insert_into_list(&list, "pizza7", 7);
+    insert_into_list(&list, "pizza8", 8);
+    append_into_list(&list, "pizza9");
+    append_into_list(&list, "pizza10");
 
-    printf("%lu\n", my_list.size);
-
-    for (unsigned int i = 0;i < my_list.used_space;i++)
-        printf("%s\n", my_list.list[i]);
+    //for (unsigned int i = 0;i < list.used_space;i++)
+    //    printf("%s\n", list.list[i]);
 }
