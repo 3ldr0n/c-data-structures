@@ -13,6 +13,8 @@ struct list_t {
     size_t size;
 };
 
+void *smalloc(size_t size);
+void *srealloc(void *ptr, size_t size);
 void instanciate_list(struct list_t *list, size_t size);
 void insert_into_list(struct list_t *list, char *value, unsigned int index);
 void append_into_list(struct list_t *list, char *value);
