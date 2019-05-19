@@ -16,80 +16,56 @@ void *smalloc(size_t size)
     return mem;
 }
 
-void *srealloc(void *ptr, size_t size)
+void instanciate_list(struct list_t *list)
 {
-    if (!size)
-        return NULL;
-
-    void *mem;
-    mem = realloc(ptr, size);
-
-    if (!mem) {
-        fprintf(stderr, "Fatal: Erro na alocação (realloc de %zu bytes)\n", size);
-        exit(EXIT_FAILURE);
-    }
-
-    return mem;
-}
-
-void instanciate_list(struct list_t *list, size_t size)
-{
-    list->list = (char **)smalloc(sizeof(char *) * size);
-
-    for (unsigned int i = 0;i < size;i++) {
-        list->list[i] = (char *)smalloc(MAX_LINE_CHARACTERS * sizeof(char *));
-    }
+    list->head = NULL;
 
     list->used_space = 0;
-    list->size = size;
+    list->size = 0;
 }
 
-void insert_into_list(struct list_t *list, char *value, unsigned int index)
+bool is_list_empty(struct list_t *list)
 {
-    if (index >= list->size) {
-        fprintf(stderr, "Não é possivel alocar '%s' na posição %d.\n",
-                value, index);
-        exit(EXIT_FAILURE);
-    }
-
-    strcpy(list->list[index], value);
-    list->used_space++;
+    return list->head == NULL;
 }
 
-void append_into_list(struct list_t *list, char *value)
+void append(struct list_t *list, int value)
 {
-    if (list->used_space < list->size) {
-        insert_into_list(list, value, list->used_space); return;
+    if (is_list_empty(list)) {
+        list->head = (struct node *)smalloc(sizeof(struct node *));
+        list->head->value = value;
+        list->head->next = NULL;
+        return;
     }
 
-    list->used_space++;
-    list->size++;
+    struct node *item = list->head;
+    for (;item->next != NULL;item = item->next) {}
 
-    list->list = (char **)srealloc(list->list, list->size);
-    printf("%s\n", list->list[3]);
+    struct node *node = (struct node *)smalloc(sizeof(struct node *));
+    node->value = value;
+    node->next = NULL;
+    item->next = node;
+}
 
-    list->list[list->size-1] = (char *)smalloc(MAX_LINE_CHARACTERS * sizeof(char *));
-
-    strcpy(list->list[list->used_space - 1], value);
+void print_list(struct list_t *list)
+{
+    for (struct node *item = list->head;item != NULL;item = item->next) {
+        printf("%d ", item->value);
+    }
+    printf("\n");
 }
 
 int main()
 {
     struct list_t list;
 
-    instanciate_list(&list, 10);
-    insert_into_list(&list, "pizza0", 0);
-    insert_into_list(&list, "pizza1", 1);
-    insert_into_list(&list, "pizza2", 2);
-    insert_into_list(&list, "pizza3", 3);
-    insert_into_list(&list, "pizza4", 4);
-    insert_into_list(&list, "pizza5", 5);
-    insert_into_list(&list, "pizza6", 6);
-    insert_into_list(&list, "pizza7", 7);
-    insert_into_list(&list, "pizza8", 8);
-    append_into_list(&list, "pizza9");
-    append_into_list(&list, "pizza10");
+    instanciate_list(&list);
+    append(&list, 10);
+    append(&list, 1);
+    append(&list, 2);
+    append(&list, 9);
 
-    //for (unsigned int i = 0;i < list.used_space;i++)
-    //    printf("%s\n", list.list[i]);
+    print_list(&list);
+
+    return 0;
 }

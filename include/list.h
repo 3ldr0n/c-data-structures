@@ -3,20 +3,25 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 #define MAX_LINE_CHARACTERS 200
 
+struct node {
+    int value;
+    struct node *next;
+};
+
 struct list_t {
-    char **list;
+    struct node *head;
     size_t used_space;
     size_t size;
 };
 
 void *smalloc(size_t size);
-void *srealloc(void *ptr, size_t size);
-void instanciate_list(struct list_t *list, size_t size);
-void insert_into_list(struct list_t *list, char *value, unsigned int index);
-void append_into_list(struct list_t *list, char *value);
+void instanciate_list(struct list_t *list);
+bool is_list_empty(struct list_t *list);
+void append(struct list_t *list, int value);
 
 #endif
