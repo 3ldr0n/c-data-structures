@@ -15,7 +15,6 @@ struct node {
 
 struct list_t {
     struct node *head;
-    size_t used_space;
     size_t size;
 };
 

@@ -1,4 +1,4 @@
-#include "list.h"
+#include "linked_list.h"
 
 void *smalloc(size_t size)
 {
@@ -20,7 +20,6 @@ void instanciate_list(struct list_t *list)
 {
     list->head = NULL;
 
-    list->used_space = 0;
     list->size = 0;
 }
 
@@ -45,6 +44,8 @@ void append(struct list_t *list, int value)
     node->value = value;
     node->next = NULL;
     item->next = node;
+
+    list->size++;
 }
 
 void print_list(struct list_t *list)

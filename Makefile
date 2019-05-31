@@ -3,7 +3,7 @@ CFLAGS+=-Wall -Wextra -Werror -I./include
 SRC=src
 BIN=bin
 
-all: list
+all: linked_list doubly_linked_list
 
 %: $(SRC)/%.o
 	mkdir -p $(BIN)
