@@ -16,6 +16,14 @@ void *smalloc(size_t size)
     return mem;
 }
 
+void print_list(struct list_t *list)
+{
+    for (struct node *item = list->head;item != NULL;item = item->next)
+        printf("%d ", item->value);
+
+    printf("\n");
+}
+
 void instanciate_list(struct list_t *list)
 {
     list->head = NULL;
@@ -47,12 +55,24 @@ void append(struct list_t *list, int value)
     list->size++;
 }
 
-void print_list(struct list_t *list)
+void remove_first(struct list_t *list)
 {
-    for (struct node *item = list->head;item != NULL;item = item->next)
-        printf("%d ", item->value);
+    if (is_list_empty(list)) return;
 
-    printf("\n");
+    if (list->head == list->tail)
+        list->head = list->tail = NULL;
+    else
+        list->head = list->head->next;
+}
+
+void remove_last(struct list_t *list)
+{
+    if (is_list_empty(list)) return;
+
+    if (list->head == list->tail)
+        list->head = list->tail = NULL;
+    else
+        list->tail = list->tail->prev;
 }
 
 int main()
@@ -64,6 +84,8 @@ int main()
     append(&list, 1);
     append(&list, 2);
     append(&list, 9);
+    remove_first(&list);
+    remove_last(&list);
 
     print_list(&list);
 
