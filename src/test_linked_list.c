@@ -1,6 +1,6 @@
 #include <stdbool.h>
 
-#include "doubly_linked_list.h"
+#include "linked_list.h"
 
 int number_of_tests_passed = 0;
 

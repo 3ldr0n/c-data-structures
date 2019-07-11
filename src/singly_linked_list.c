@@ -18,7 +18,6 @@ void *smalloc(size_t size)
 void instanciate_list(struct list_t *list)
 {
     list->head = NULL;
-
     list->size = 0;
 }
 
@@ -33,6 +32,7 @@ void append(struct list_t *list, int value)
         list->head = (struct node *)smalloc(sizeof(struct node *));
         list->head->value = value;
         list->head->next = NULL;
+        list->size++;
         return;
     }
 
@@ -53,19 +53,4 @@ void print_list(struct list_t *list)
         printf("%d ", item->value);
     }
     printf("\n");
-}
-
-int main()
-{
-    struct list_t list;
-
-    instanciate_list(&list);
-    append(&list, 10);
-    append(&list, 1);
-    append(&list, 2);
-    append(&list, 9);
-
-    print_list(&list);
-
-    return 0;
 }
