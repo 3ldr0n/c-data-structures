@@ -15,10 +15,18 @@ void *smalloc(size_t size)
     return mem;
 }
 
+void print_list(struct list_t *list)
+{
+    for (struct node *item = list->head;item != NULL;item = item->next)
+        printf("%d ", item->value);
+
+    printf("\n");
+}
+
 void instanciate_list(struct list_t *list)
 {
     list->head = NULL;
-
+    list->tail = NULL;
     list->size = 0;
 }
 
@@ -29,43 +37,50 @@ bool is_list_empty(struct list_t *list)
 
 void append(struct list_t *list, int value)
 {
+    struct node *new_node = (struct node *)smalloc(sizeof(struct node *));
+    new_node->value = value;
+    new_node->next = NULL;
+
     if (is_list_empty(list)) {
-        list->head = (struct node *)smalloc(sizeof(struct node *));
-        list->head->value = value;
-        list->head->next = NULL;
-        return;
+        new_node->prev = NULL;
+        list->tail = list->head = new_node;
+    } else {
+        new_node->prev = list->tail;
+        list->tail->next = new_node;
+        list->tail = new_node;
     }
-
-    struct node *item = list->head;
-    for (;item->next != NULL;item = item->next) {}
-
-    struct node *node = (struct node *)smalloc(sizeof(struct node *));
-    node->value = value;
-    node->next = NULL;
-    item->next = node;
 
     list->size++;
 }
 
-void print_list(struct list_t *list)
+void remove_first(struct list_t *list)
 {
-    for (struct node *item = list->head;item != NULL;item = item->next) {
-        printf("%d ", item->value);
+    if (is_list_empty(list)) return;
+
+    if (list->head == list->tail) {
+        free(list->head);
+        list->head = list->tail = NULL;
+    } else {
+        struct node *aux = list->head;
+        list->head = list->head->next;
+        list->head->prev = NULL;
+        free(aux);
     }
-    printf("\n");
+    list->size--;
 }
 
-int main()
+void remove_last(struct list_t *list)
 {
-    struct list_t list;
+    if (is_list_empty(list)) return;
 
-    instanciate_list(&list);
-    append(&list, 10);
-    append(&list, 1);
-    append(&list, 2);
-    append(&list, 9);
-
-    print_list(&list);
-
-    return 0;
+    if (list->head == list->tail) {
+        free(list->head);
+        list->head = list->tail = NULL;
+    } else {
+        struct node *aux = list->tail;
+        list->tail = list->tail->prev;
+        list->tail->next = NULL;
+        free(aux);
+    }
+    list->size--;
 }
