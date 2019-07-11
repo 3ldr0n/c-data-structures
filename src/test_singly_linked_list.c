@@ -28,5 +28,7 @@ int main()
 
     assert(list.size == 4, "size == 4");
 
+    printf("%d tests passed\n", number_of_tests_passed);
+
     return 0;
 }

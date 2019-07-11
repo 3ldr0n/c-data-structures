@@ -37,7 +37,6 @@ int main()
     assert(list.size == 1, "size == 1");
 
     printf("%d tests passed\n", number_of_tests_passed);
-    print_list(&list);
 
     return 0;
 }
