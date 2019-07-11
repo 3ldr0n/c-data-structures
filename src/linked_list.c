@@ -5,8 +5,7 @@ void *smalloc(size_t size)
     if (!size)
         return NULL;
 
-    void *mem;
-    mem = malloc(size);
+    void *mem = malloc(size);
 
     if (!mem) {
         fprintf(stderr, "Fatal: Erro na alocação (malloc de %zu bytes)\n", size);

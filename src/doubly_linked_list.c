@@ -57,13 +57,15 @@ void remove_first(struct list_t *list)
 {
     if (is_list_empty(list)) return;
 
-    struct node *aux = list->head;
     if (list->head == list->tail) {
+        free(list->head);
         list->head = list->tail = NULL;
     } else {
+        struct node *aux = list->head;
         list->head = list->head->next;
+        list->head->prev = NULL;
+        free(aux);
     }
-    free(aux);
     list->size--;
 }
 
@@ -71,12 +73,14 @@ void remove_last(struct list_t *list)
 {
     if (is_list_empty(list)) return;
 
-    struct node *aux = list->tail;
     if (list->head == list->tail) {
+        free(list->head);
         list->head = list->tail = NULL;
     } else {
+        struct node *aux = list->tail;
         list->tail = list->tail->prev;
+        list->tail->next = NULL;
+        free(aux);
     }
-    free(aux);
     list->size--;
 }
