@@ -5,8 +5,7 @@ void *smalloc(size_t size)
     if (!size)
         return NULL;
 
-    void *mem;
-    mem = malloc(size);
+    void *mem = malloc(size);
 
     if (!mem) {
         fprintf(stderr, "Fatal: Erro na alocação (malloc de %zu bytes)\n", size);
@@ -28,7 +27,6 @@ void instanciate_list(struct list_t *list)
 {
     list->head = NULL;
     list->tail = NULL;
-
     list->size = 0;
 }
 
@@ -59,35 +57,26 @@ void remove_first(struct list_t *list)
 {
     if (is_list_empty(list)) return;
 
-    if (list->head == list->tail)
+    struct node *aux = list->head;
+    if (list->head == list->tail) {
         list->head = list->tail = NULL;
-    else
+    } else {
         list->head = list->head->next;
+    }
+    free(aux);
+    list->size--;
 }
 
 void remove_last(struct list_t *list)
 {
     if (is_list_empty(list)) return;
 
-    if (list->head == list->tail)
+    struct node *aux = list->tail;
+    if (list->head == list->tail) {
         list->head = list->tail = NULL;
-    else
+    } else {
         list->tail = list->tail->prev;
-}
-
-int main()
-{
-    struct list_t list;
-
-    instanciate_list(&list);
-    append(&list, 10);
-    append(&list, 1);
-    append(&list, 2);
-    append(&list, 9);
-    remove_first(&list);
-    remove_last(&list);
-
-    print_list(&list);
-
-    return 0;
+    }
+    free(aux);
+    list->size--;
 }

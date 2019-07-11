@@ -5,14 +5,11 @@ BIN=bin
 
 all: linked_list doubly_linked_list
 
-%: $(SRC)/%.o
+%:
 	mkdir -p $(BIN)
-	$(CC) $(CFLAGS) $(SRC)/$@.o -o ./$(BIN)/$@
-
-.PRECIOUS: %.o
+	$(CC) $(CFLAGS) $(SRC)/$@.c $(SRC)/test_$@.c -o ./$(BIN)/test_$@
 
 .PHONY: clean
 
 clean:
 	rm $(BIN)/*
-	rm $(SRC)/*.o
