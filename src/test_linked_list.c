@@ -2,41 +2,66 @@
 
 #include "linked_list.h"
 
-int number_of_tests_passed = 0;
+int tests_run = 0;
+int tests_passed = 0;
 
-void assert(bool expr, char* error)
+#define FAIL() printf("\nfailure in %s() line %d\n", __func__, __LINE__)
+#define _assert(test) do {  \
+        tests_run++;        \
+        if (!(test)) {      \
+            FAIL();         \
+            return 1;       \
+        } else {            \
+            tests_passed++; \
+        }                   \
+    } while(0)
+#define _verify(test) do { int r=test(); tests_run++; if(r) return r; } while(0)
+
+int test_instanciate_list(struct list_t *list)
 {
-    if (!expr) {
-        printf("Assertion error on:\n");
-        printf("%s\n", error);
-        exit(-1);
-    }
-    number_of_tests_passed++;
+    instanciate_list(list);
+    _assert(list->size == 0);
+    return 1;
+}
+
+int test_append(struct list_t *list)
+{
+    append(list, (void *)3);
+    append(list, (void *)1);
+    append(list, (void *)2);
+    _assert(list->size == 3);
+    return 1;
+}
+
+int test_remove_first(struct list_t *list)
+{
+    remove_first(list);
+    _assert(list->size == 2);
+    return 1;
+}
+
+int test_remove_last(struct list_t *list)
+{
+    remove_last(list);
+
+    _assert(list->tail->value == list->head->value);
+    _assert(list->size == 1);
+    return 1;
 }
 
 int main()
 {
     struct list_t list;
 
-    instanciate_list(&list);
-    assert(list.size == (size_t) 0, "size == 0");
+    test_instanciate_list(&list);
 
-    append(&list, 10);
-    append(&list, 1);
-    append(&list, 2);
+    test_append(&list);
 
-    assert(list.size == 3, "size == 3");
+    test_remove_first(&list);
 
-    remove_first(&list);
+    test_remove_last(&list);
 
-    assert(list.size == 2, "size == 2");
-
-    remove_last(&list);
-
-    assert(list.tail->value == list.head->value, "value == value");
-    assert(list.size == 1, "size == 1");
-
-    printf("%d tests passed\n", number_of_tests_passed);
+    printf("%d/%d tests passed\n", tests_passed, tests_run);
 
     return 0;
 }

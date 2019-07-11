@@ -9,7 +9,7 @@
 #define MAX_LINE_CHARACTERS 200
 
 struct node {
-    int value;
+    void *value;
     struct node *next;
     struct node *prev;
 };
@@ -23,7 +23,7 @@ struct list_t {
 void *smalloc(size_t size);
 void instanciate_list(struct list_t *list);
 bool is_list_empty(struct list_t *list);
-void append(struct list_t *list, int value);
+void append(struct list_t *list, void *value);
 void remove_first(struct list_t *list);
 void remove_last(struct list_t *list);
 void print_list(struct list_t *list);

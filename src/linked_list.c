@@ -18,7 +18,7 @@ void *smalloc(size_t size)
 void print_list(struct list_t *list)
 {
     for (struct node *item = list->head;item != NULL;item = item->next)
-        printf("%d ", item->value);
+        printf("%s ", item->value);
 
     printf("\n");
 }
@@ -35,7 +35,7 @@ bool is_list_empty(struct list_t *list)
     return list->head == NULL;
 }
 
-void append(struct list_t *list, int value)
+void append(struct list_t *list, void *value)
 {
     struct node *new_node = (struct node *)smalloc(sizeof(struct node *));
     new_node->value = value;
