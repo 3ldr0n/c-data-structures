@@ -7,6 +7,9 @@ all: linked_list singly_linked_list
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/$@.c src/test_$@.c -o bin/test_$@
 
+tests:
+	./run_tests.sh
+
 .PHONY: clean
 
 clean:
