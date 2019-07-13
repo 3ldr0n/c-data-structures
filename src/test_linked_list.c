@@ -15,12 +15,17 @@ int tests_passed = 0;
             tests_passed++; \
         }                   \
     } while(0)
-#define _verify(test) do { int r=test(); tests_run++; if(r) return r; } while(0)
 
 int test_instanciate_list(struct list_t *list)
 {
     instanciate_list(list);
     _assert(list->size == 0);
+    return 1;
+}
+
+int test_is_empty_list(struct list_t *list)
+{
+    _assert(is_list_empty(list));
     return 1;
 }
 
@@ -54,6 +59,8 @@ int main()
     struct list_t list;
 
     test_instanciate_list(&list);
+
+    test_is_empty_list(&list);
 
     test_append(&list);
 
