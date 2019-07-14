@@ -1,20 +1,7 @@
 #include <stdbool.h>
 
 #include "linked_list.h"
-
-int tests_run = 0;
-int tests_passed = 0;
-
-#define FAIL() printf("\nfailure in %s() line %d\n", __func__, __LINE__)
-#define _assert(test) do {  \
-        tests_run++;        \
-        if (!(test)) {      \
-            FAIL();         \
-            return 1;       \
-        } else {            \
-            tests_passed++; \
-        }                   \
-    } while(0)
+#include "test.h"
 
 int test_instanciate_list(struct list_t *list)
 {
