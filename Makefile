@@ -8,7 +8,7 @@ all: linked_list singly_linked_list
 	$(CC) $(CFLAGS) src/$@.c src/tests/test_$@.c -o bin/test_$@
 
 tests:
-	./run_tests.sh
+	./scripts/run_tests.sh
 
 .PHONY: clean
 
