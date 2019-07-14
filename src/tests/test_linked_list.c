@@ -22,6 +22,8 @@ int test_append(struct list_t *list)
     append(list, (void *)1);
     append(list, (void *)2);
     _assert(list->size == 3);
+    _assert(list->head->value == (void *)3);
+    _assert(list->tail->value == (void *)2);
     return 1;
 }
 

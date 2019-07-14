@@ -24,6 +24,7 @@ int test_append(struct list_t *list)
     append(list, 9);
 
     _assert(list->size == 4);
+    _assert(list->head->value == 10);
     return 1;
 }
 
