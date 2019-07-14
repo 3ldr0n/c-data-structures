@@ -5,7 +5,7 @@ all: linked_list singly_linked_list
 
 %: src/%.c
 	mkdir -p bin
-	$(CC) $(CFLAGS) src/$@.c src/test_$@.c -o bin/test_$@
+	$(CC) $(CFLAGS) src/$@.c src/tests/test_$@.c -o bin/test_$@
 
 tests:
 	./run_tests.sh
